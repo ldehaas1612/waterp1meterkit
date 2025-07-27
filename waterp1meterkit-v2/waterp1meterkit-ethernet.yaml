@@ -223,7 +223,7 @@ sensor:
     icon: "mdi:water-pump"
     accuracy_decimals: 0  # Usage in whole liters
     lambda: |-
-      return id(sensor_pulse_meter);  # Returns the liters of water per minute
+      return id(sensor_pulse_meter).state;  // Returns the liters of water per minute
   # Sensor for waterusage in cubic meters (m³)
   - platform: template
     name: "${friendly_name} in M³"
@@ -232,7 +232,7 @@ sensor:
     icon: "mdi:water"
     accuracy_decimals: 3  # usage in m³, with three decimals
     lambda: |-
-      return id(sensor_pulse_meter) * 0.001;  # convert liters to cubic meters
+      return id(sensor_pulse_meter).state * 0.001;  // convert liters to cubic meters
   # Sensor for total consumption in cubic meters (m³)
   - platform: template
     name: "${friendly_name} Total Watermeter number"
@@ -241,7 +241,7 @@ sensor:
     icon: "mdi:counter"
     accuracy_decimals: 3
     lambda: |-
-      return id(totalwater);  # returns total meter number in cubic meters
+      return id(totalwater);  // returns total meter number in cubic meters
   #HDC1080 temp & hum sensor
   - platform: hdc1080
     temperature:
