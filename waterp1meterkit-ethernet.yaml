@@ -9,7 +9,7 @@ globals:
   - id: totalwater
     type: float
     restore_value: yes  # Keeps value stored after reset or power cycle
-    initial_value: '00012.345'  # Initial meter value in m³
+    initial_value: '00238.880'  # Initial meter value in m³
 
 #Esphome start
 esphome:
@@ -33,7 +33,7 @@ ota:
   - platform: esphome
 
 dashboard_import:
-  package_import_url: github://smarthomeshop/waterp1meterkit/waterp1meterkit-ethernet.yaml@main
+  package_import_url: github://ldehaas1612/waterp1meterkit/waterp1meterkit-ethernet.yaml@main
 
 ethernet:
   type: LAN8720
