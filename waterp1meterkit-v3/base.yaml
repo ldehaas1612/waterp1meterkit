@@ -56,31 +56,31 @@ esphome:
             }
             ESP_LOGI("water", "Water total saved on shutdown: %.3f m³", id(water_total_persistent));
 
- # Global variables for persistent water total
- # Uses smart saving: only writes to flash when threshold reached
-  globals:
-    - id: water_total_persistent
-      type: float
-      restore_value: true
-      initial_value: "0.0"
-    - id: water_pulse_offset
-      type: float
-      restore_value: true
-      initial_value: "0.0"
+# Global variables for persistent water total
+# Uses smart saving: only writes to flash when threshold reached
+globals:
+  - id: water_total_persistent
+    type: float
+    restore_value: true
+    initial_value: "0.0"
+  - id: water_pulse_offset
+    type: float
+    restore_value: true
+    initial_value: "0.0"
 
-  # Interval for periodic water total saving
-  interval:
-    - interval: 5min
-      then:
-        - lambda: |-
-            float pulses_since_offset = id(sensor_pulse_meter_total).state - id(water_pulse_offset);
-  
-            // Only write to flash if at least 50 liters used since last save (0.05 m³)
-            if (pulses_since_offset >= 0.05) {
-              id(water_total_persistent) += pulses_since_offset;
-              id(water_pulse_offset) = id(sensor_pulse_meter_total).state;
-              ESP_LOGI("water", "Water total saved to flash: %.3f m³ (+%.3f m³)", id(water_total_persistent), pulses_since_offset);
-            }
+# Interval for periodic water total saving
+interval:
+  - interval: 5min
+    then:
+      - lambda: |-
+          float pulses_since_offset = id(sensor_pulse_meter_total).state - id(water_pulse_offset);
+
+          // Only write to flash if at least 50 liters used since last save (0.05 m³)
+          if (pulses_since_offset >= 0.05) {
+            id(water_total_persistent) += pulses_since_offset;
+            id(water_pulse_offset) = id(sensor_pulse_meter_total).state;
+            ESP_LOGI("water", "Water total saved to flash: %.3f m³ (+%.3f m³)", id(water_total_persistent), pulses_since_offset);
+          }
 
 esp32:
   board: esp32dev
