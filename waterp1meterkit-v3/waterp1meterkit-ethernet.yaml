@@ -7,13 +7,15 @@ packages:
   base: !include base.yaml
 
 dashboard_import:
-  package_import_url: github://ldehaas1612/waterp1meterkit/blob/main/waterp1meterkit-v3/waterp1meterkit-ethernet.yaml@main
+  package_import_url: github://ldehaas1612/waterp1meterkit/blob/5021cad58fde8d4b64268f805122861f33bbdb2d/waterp1meterkit-v3/waterp1meterkit-ethernet.yaml
 
 ethernet:
   type: LAN8720
   mdc_pin: GPIO23
   mdio_pin: GPIO18
-  clk_mode: GPIO17_OUT
+  clk:
+    mode: CLK_OUT
+    pin: GPIO17
   phy_addr: 1
   power_pin: GPIO33
 
