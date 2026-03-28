@@ -7,8 +7,8 @@ substitutions:
   project_version: "1.7"
   hardware_version: "V3"
   # Manifest URLs for OTA firmware updates
-  wifi_manifest_url: "https://smarthomeshop.github.io/waterp1meterkit/waterp1meterkit-v3-wifi-manifest.json"
-  ethernet_manifest_url: "https://smarthomeshop.github.io/waterp1meterkit/waterp1meterkit-v3-ethernet-manifest.json"
+  wifi_manifest_url: "https://ldehaas1612.github.io/waterp1meterkit/waterp1meterkit-v3-wifi-manifest.json"
+  ethernet_manifest_url: "https://ldehaas1612.github.io/waterp1meterkit/waterp1meterkit-v3-ethernet-manifest.json"
   default_network: "WiFi"
   # Gas meter MBus ID (usually 1, but can be 2, 3, or 4 depending on your meter)
   # Change this value and reflash if your gas meter doesn't show data
