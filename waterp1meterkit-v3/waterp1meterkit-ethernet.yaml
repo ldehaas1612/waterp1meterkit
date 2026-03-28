@@ -7,7 +7,7 @@ packages:
   base: !include base.yaml
 
 dashboard_import:
-  package_import_url: github://smarthomeshop/waterp1meterkit/waterp1meterkit-v3/waterp1meterkit-ethernet.yaml@main
+  package_import_url: github://ldehaas1612/waterp1meterkit/blob/main/waterp1meterkit-v3/waterp1meterkit-ethernet.yaml@main
 
 ethernet:
   type: LAN8720

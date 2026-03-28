@@ -2,8 +2,8 @@
 # This file contains shared configuration for both WiFi and Ethernet variants
 
 substitutions:
-  device_name: waterp1meterkit
-  friendly_name: WaterP1MeterKit
+  device_name: waterp1meterkitv3
+  friendly_name: WaterP1MeterKitv3
   project_version: "1.5"
   hardware_version: "V3"
   # Manifest URLs for OTA firmware updates
@@ -19,7 +19,7 @@ esphome:
   friendly_name: ${friendly_name}
   name_add_mac_suffix: true
   project:
-    name: "smarthomeshop.waterp1meterkit"
+    name: "ldehaas1612.waterp1meterkit"
     version: ${project_version}
   on_boot:
     - priority: 610
@@ -35,54 +35,52 @@ esphome:
               - logger.log: "OTA updates set to use WiFi firmware"
               - lambda: 'id(firmware_update).set_source_url("${wifi_manifest_url}");'
               - component.update: firmware_update
-    # TODO: Uncomment below for persistent water meter feature (not yet released)
-    # # Initialize pulse offset on boot (pulse_meter_total resets to 0)
-    # # And sync the number entity with the restored persistent value
-    # - priority: -100
-    #   then:
-    #     - lambda: |-
-    #         id(water_pulse_offset) = 0.0;
-    #         // Sync number entity with restored persistent value
-    #         id(water_meter_initial).publish_state(id(water_total_persistent));
-    # on_shutdown:
-    #   priority: -100
-    #   then:
-    #     # Save water total on shutdown (OTA, restart, etc.) - no data loss
-    #     - lambda: |-
-    #         float pulses_since_offset = id(sensor_pulse_meter_total).state - id(water_pulse_offset);
-    #         if (pulses_since_offset > 0) {
-    #           id(water_total_persistent) += pulses_since_offset;
-    #           id(water_pulse_offset) = id(sensor_pulse_meter_total).state;
-    #         }
-    #         ESP_LOGI("water", "Water total saved on shutdown: %.3f m³", id(water_total_persistent));
 
-# TODO: Uncomment below for persistent water meter feature (not yet released)
-# # Global variables for persistent water total
-# # Uses smart saving: only writes to flash when threshold reached
-# globals:
-#   - id: water_total_persistent
-#     type: float
-#     restore_value: true
-#     initial_value: "0.0"
-#   - id: water_pulse_offset
-#     type: float
-#     restore_value: true
-#     initial_value: "0.0"
+     # Initialize pulse offset on boot (pulse_meter_total resets to 0)
+     # And sync the number entity with the restored persistent value
+    - priority: -100
+      then:
+        - lambda: |-
+            id(water_pulse_offset) = 0.0;
+            // Sync number entity with restored persistent value
+            id(water_meter_initial).publish_state(id(water_total_persistent));
+  on_shutdown:
+    - priority: -100
+      then:
+        # Save water total on shutdown (OTA, restart, etc.) - no data loss
+        - lambda: |-
+            float pulses_since_offset = id(sensor_pulse_meter_total).state - id(water_pulse_offset);
+            if (pulses_since_offset > 0) {
+              id(water_total_persistent) += pulses_since_offset;
+              id(water_pulse_offset) = id(sensor_pulse_meter_total).state;
+            }
+            ESP_LOGI("water", "Water total saved on shutdown: %.3f m³", id(water_total_persistent));
 
-# TODO: Uncomment below for persistent water meter feature (not yet released)
-# # Interval for periodic water total saving
-# interval:
-#   - interval: 5min
-#     then:
-#       - lambda: |-
-#           float pulses_since_offset = id(sensor_pulse_meter_total).state - id(water_pulse_offset);
-#
-#           // Only write to flash if at least 50 liters used since last save (0.05 m³)
-#           if (pulses_since_offset >= 0.05) {
-#             id(water_total_persistent) += pulses_since_offset;
-#             id(water_pulse_offset) = id(sensor_pulse_meter_total).state;
-#             ESP_LOGI("water", "Water total saved to flash: %.3f m³ (+%.3f m³)", id(water_total_persistent), pulses_since_offset);
-#           }
+ # Global variables for persistent water total
+ # Uses smart saving: only writes to flash when threshold reached
+  globals:
+    - id: water_total_persistent
+      type: float
+      restore_value: true
+      initial_value: "0.0"
+    - id: water_pulse_offset
+      type: float
+      restore_value: true
+      initial_value: "0.0"
+
+  # Interval for periodic water total saving
+  interval:
+    - interval: 5min
+      then:
+        - lambda: |-
+            float pulses_since_offset = id(sensor_pulse_meter_total).state - id(water_pulse_offset);
+  
+            // Only write to flash if at least 50 liters used since last save (0.05 m³)
+            if (pulses_since_offset >= 0.05) {
+              id(water_total_persistent) += pulses_since_offset;
+              id(water_pulse_offset) = id(sensor_pulse_meter_total).state;
+              ESP_LOGI("water", "Water total saved to flash: %.3f m³ (+%.3f m³)", id(water_total_persistent), pulses_since_offset);
+            }
 
 esp32:
   board: esp32dev
@@ -159,30 +157,29 @@ button:
     entity_category: config
     disabled_by_default: true
 
-# TODO: Uncomment below for persistent water meter feature (not yet released)
-# # Number input for setting initial water meter reading
-# number:
-#   - platform: template
-#     id: water_meter_initial
-#     name: "Water Meter Initial Value"
-#     icon: "mdi:water-plus"
-#     unit_of_measurement: "m³"
-#     device_class: water
-#     entity_category: config
-#     optimistic: true
-#     min_value: 0
-#     max_value: 100000
-#     step: 0.001
-#     mode: box
-#     set_action:
-#       then:
-#         - lambda: |-
-#             // Set the persistent value and reset the pulse offset
-#             id(water_total_persistent) = x;
-#             id(water_pulse_offset) = id(sensor_pulse_meter_total).state;
-#             // Force update of the water meter total sensor
-#             id(sensor_water_meter_total).update();
-#             ESP_LOGI("water", "Water meter initial value set to: %.3f m³", x);
+# Number input for setting initial water meter reading
+number:
+  - platform: template
+    id: water_meter_initial
+    name: "Water Meter Initial Value"
+    icon: "mdi:water-plus"
+    unit_of_measurement: "m³"
+    device_class: water
+    entity_category: config
+    optimistic: true
+    min_value: 0
+    max_value: 100000
+    step: 0.001
+    mode: box
+    set_action:
+      then:
+        - lambda: |-
+            // Set the persistent value and reset the pulse offset
+            id(water_total_persistent) = x;
+            id(water_pulse_offset) = id(sensor_pulse_meter_total).state;
+            // Force update of the water meter total sensor
+            id(sensor_water_meter_total).update();
+            ESP_LOGI("water", "Water meter initial value set to: %.3f m³", x);
 
 # Water Leak Sensor (V3 specific)
 binary_sensor:
@@ -413,24 +410,22 @@ sensor:
         - light.turn_on:
             id: light_led_green
             flash_length: 1s
-        # TODO: Uncomment below for persistent water meter feature (not yet released)
-        # # Update the meter total sensor
-        # - component.update: sensor_water_meter_total
+        # Update the meter total sensor
+        - component.update: sensor_water_meter_total
 
-  # TODO: Uncomment below for persistent water meter feature (not yet released)
-  # # Water Meter Total (Persistent + Pulses since last save)
-  # # Use this to track your actual water meter reading
-  # - platform: template
-  #   id: sensor_water_meter_total
-  #   name: "Water Meter Total"
-  #   icon: "mdi:water-check"
-  #   unit_of_measurement: "m³"
-  #   state_class: total_increasing
-  #   device_class: water
-  #   accuracy_decimals: 3
-  #   lambda: |-
-  #     return id(water_total_persistent) + (id(sensor_pulse_meter_total).state - id(water_pulse_offset));
-  #   update_interval: 60s
+  # Water Meter Total (Persistent + Pulses since last save)
+  # Use this to track your actual water meter reading
+  - platform: template
+    id: sensor_water_meter_total
+    name: "Water Meter Total"
+    icon: "mdi:water-check"
+    unit_of_measurement: "m³"
+    state_class: total_increasing
+    device_class: water
+    accuracy_decimals: 3
+    lambda: |-
+        return id(water_total_persistent) + (id(sensor_pulse_meter_total).state - id(water_pulse_offset));
+    update_interval: 60s
 
   # HDC1080 temp & hum sensor
   - platform: hdc1080
