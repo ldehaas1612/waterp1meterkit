@@ -1,5 +1,5 @@
 # yamllint disable
-# WiFi mixin for WaterP1MeterKit V3 variants
+# WiFi mixin for WaterP1MeterKit V4 variants
 # Provides WiFi connectivity, captive portal, and improv provisioning
 
 wifi:
@@ -42,14 +42,28 @@ text_sensor:
     bssid:
       id: wifi_bssid
       name: "${friendly_name} Connected BSSID"
-    # MAC address (used for cloud device identification if cloud enabled)
     mac_address:
       id: wifi_mac_address
       name: "${friendly_name} MAC Address"
       entity_category: diagnostic
       icon: "mdi:identifier"
 
-  # Dummy sensor for cloud.yaml compatibility (ethernet variant uses this ID)
   - platform: template
     id: ethernet_ip_address
     internal: true
+    lambda: |-
+      if (id(wifi_ip_address).has_state()) {
+        return id(wifi_ip_address).state;
+      }
+      return {};
+    update_interval: 10s
+
+  - platform: template
+    id: ethernet_mac_address
+    internal: true
+    lambda: |-
+      if (id(wifi_mac_address).has_state()) {
+        return id(wifi_mac_address).state;
+      }
+      return {};
+    update_interval: 10s

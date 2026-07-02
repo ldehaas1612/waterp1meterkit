@@ -8,8 +8,123 @@ This changelog starts on 2026-04-14. Earlier firmware versions existed before th
 
 - Add customer-facing firmware notes here before merging a PR.
 
-## [WaterP1MeterKit V1 1.9] - 2026-04-17
+## [WaterP1MeterKit V1 1.13] - 2026-06-29
 
+
+- Added disabled-by-default DSMR water meter entities for Belgian digital water meters.
+- Added disabled-by-default DSMR gas MBus diagnostic entities.
+
+
+## [WaterP1MeterKit V2 1.14] - 2026-06-29
+
+
+- Added disabled-by-default DSMR water meter entities for Belgian digital water meters.
+- Added disabled-by-default DSMR gas MBus diagnostic entities.
+
+
+## [WaterP1MeterKit V3 1.13] - 2026-06-29
+
+
+- Added disabled-by-default DSMR water meter entities for Belgian digital water meters.
+- Added disabled-by-default DSMR gas MBus diagnostic entities.
+
+
+## [WaterP1MeterKit V4 1.11] - 2026-06-29
+
+
+- Added disabled-by-default DSMR water meter entities for Belgian digital water meters.
+- Added disabled-by-default DSMR gas MBus diagnostic entities.
+
+
+## [WaterP1MeterKit V1 1.12] - 2026-06-26
+
+
+- Updated LAN8720 Ethernet clock configuration for ESPHome 2026.7 compatibility.
+
+
+## [WaterP1MeterKit V2 1.13] - 2026-06-26
+
+
+- Updated LAN8720 Ethernet clock configuration for ESPHome 2026.7 compatibility.
+
+
+## [WaterP1MeterKit V3 1.12] - 2026-06-26
+
+
+- Updated LAN8720 Ethernet clock configuration for ESPHome 2026.7 compatibility.
+
+
+## [WaterP1MeterKit V4 1.10] - 2026-06-26
+
+
+- Fixed WaterP1MeterKit V4 default gas MBus ID back to 1.
+
+
+## [WaterP1MeterKit V1 1.11] - 2026-06-26
+
+
+- Fixed cloud firmware variant selector defaults to match the published SmartHomeShop App option names.
+
+
+## [WaterP1MeterKit V2 1.12] - 2026-06-26
+
+
+- Fixed cloud firmware variant selector defaults to match the published SmartHomeShop App option names.
+
+
+## [WaterP1MeterKit V3 1.11] - 2026-06-26
+
+
+- Fixed cloud firmware variant selector defaults to match the published SmartHomeShop App option names.
+
+
+## [WaterP1MeterKit V1 1.10] - 2026-06-26
+
+
+- Fixed WaterP1MeterKit V4 expansion port leak/door input pin mapping from GPIO2 to GPIO5.
+- Added SmartHomeShop App (cloud) firmware variants where available.
+
+
+## [WaterP1MeterKit V2 1.11] - 2026-06-26
+
+
+- Fixed WaterP1MeterKit V4 expansion port leak/door input pin mapping from GPIO2 to GPIO5.
+- Added SmartHomeShop App (cloud) firmware variants where available.
+
+
+## [WaterP1MeterKit V3 1.10] - 2026-06-26
+
+
+- Fixed WaterP1MeterKit V4 expansion port leak/door input pin mapping from GPIO2 to GPIO5.
+- Added SmartHomeShop App (cloud) firmware variants where available.
+
+
+## [WaterP1MeterKit V4 1.9] - 2026-06-26
+
+
+- Fixed WaterP1MeterKit V4 expansion port leak/door input pin mapping from GPIO2 to GPIO5.
+- Added SmartHomeShop App (cloud) firmware variants where available.
+
+
+## [WaterP1MeterKit V4 1.8] - 2026-05-27
+
+
+- Set WaterP1MeterKit V4 to target the ESP32-C6-WROOM-1-N8 8 MB flash module used in production hardware.
+
+
+## [WaterP1MeterKit V4 1.7] - 2026-05-27
+
+
+- Fixed USB/serial provisioning for WaterP1MeterKit V4 by using the ESP32-C6 UART0 USB-UART bridge on GPIO16/GPIO17.
+
+
+## [WaterP1MeterKit V4 1.6] - 2026-05-26
+
+
+- Added WaterP1MeterKit V4 WiFi and Ethernet firmware for ESP32-C6 based hardware with updated pin mapping.
+
+
+## [WaterP1MeterKit V1 1.9] - 2026-04-17
 
 - Water Meter Initial Value is now saved immediately when entered, so a sudden power loss right after manual input no longer resets the stored meter reading.
 - Improved onboarding and adoption defaults for the public WiFi and Ethernet builds so WaterP1MeterKit fits the Made for ESPHome flow better.
